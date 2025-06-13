@@ -1,0 +1,45 @@
+# ► Dependencias de Node
+/node_modules/
+/backend/node_modules/
+/front-base/node_modules/
+
+# ► Archivos de build / distribuciones
+/dist/
+/build/
+/backend/dist/
+/front-base/dist/
+/front-base/build/
+
+# ► Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# ► Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# ► Sistema y metadatos
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+#
+*.tmp
+*.swp
+*.lock
+
+
+/front-base/.git
+
+
+# package-lock.json
+# yarn.lock
