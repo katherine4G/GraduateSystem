@@ -1,8 +1,8 @@
 // backend/routes/talleres.js
 const express = require('express');
 const router  = express.Router();
-const { authenticate, authorizeRoles } = require('../middlewares/auth');
-const { listarTalleres, inscribir }    = require('../controllers/tallerController');
+const { authenticate, authorizeRoles } = require('../../middlewares/auth');
+const { listarTalleres, inscribir }    = require('../../controllers/graduados/tallerController');
 
 router.get(
   '/', 

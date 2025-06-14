@@ -1,5 +1,5 @@
 // backend/controllers/tallerController.js
-const { obtenerTalleres, inscribirTaller } = require('../models/tallerModel');
+const { obtenerTalleres, inscribirTaller } = require('../../models/graduados/tallerModel');
 
 const listarTalleres = async (req, res) => {
   try {

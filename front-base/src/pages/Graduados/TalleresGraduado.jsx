@@ -90,7 +90,7 @@ const TalleresGraduado = () => {
             `}
           >
             {t.enrolled
-              ? "Inscripto"
+              ? "inscrito"
               : inscribiendoId === t.IdCourse
               ? "Inscribiendo..."
               : "Inscribirse"}
