@@ -1,4 +1,4 @@
-const db = require('../db');
+const db = require('../../db');
 
 function obtenerTodos(callback) {
   const sql = 'SELECT * FROM Graduados';

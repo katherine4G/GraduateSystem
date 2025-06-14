@@ -1,5 +1,5 @@
 // backend/models/careerModel.js
-const db = require('../db');
+const db = require('../../db');
 
 const obtenerCarreras = () =>
   new Promise((resolve, reject) => {

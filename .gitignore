@@ -41,5 +41,5 @@ Desktop.ini
 /front-base/.git
 
 
-# package-lock.json
-# yarn.lock
+package-lock.json
+yarn.lock
