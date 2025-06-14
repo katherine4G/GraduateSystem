@@ -14,7 +14,7 @@ app.use('/api/carreras', require('./routes/career'));
 app.use('/api/registro',   require('./routes/registro'));
 app.use('/api/login',      require('./routes/auth'));
 app.use('/api/perfil',     require('./routes/perfil'));
-
+app.use('/api/talleres', require('./routes/talleres'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));

@@ -39,8 +39,7 @@ CREATE TABLE Users (
     FOREIGN KEY (IdRole) REFERENCES Roles(IdRole)
 );
 
--- Hash de contraseña: 12345678
--- $2b$10$OgFTWYvsioqVqhdS.Pow6uZZevjO7ammN0r0kqcgfLTa45fA9RDEm
+
 INSERT INTO Users (IdUser, FirstName, LastName1, LastName2, IdentityNumber, Email, Phone, Address, Password, IdRole) VALUES
 (1, 'Ana', 'Ramírez', 'Mora', '10101010', 'admin@email.com', '8888-0000', 'San José', '$2b$10$OgFTWYvsioqVqhdS.Pow6uZZevjO7ammN0r0kqcgfLTa45fA9RDEm', 1),
 (2, 'Luis', 'Gómez', 'Alvarado', '20223333', 'grad1@email.com', '8888-8888', 'Cartago', '$2b$10$OgFTWYvsioqVqhdS.Pow6uZZevjO7ammN0r0kqcgfLTa45fA9RDEm', 2),
