@@ -4,6 +4,7 @@ import Header from './Header';
 import SideBar from './SideBar';
 import Breadcrumbs from '../Breadcrumbs';
 import { Outlet } from 'react-router-dom';
+
 import { SearchContext } from '../../context/SearchContext';
 import { Menu } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
@@ -81,7 +82,9 @@ const Layout = () => {
             flex-grow p-6 overflow-y-auto
             ${backgroundTheme} dark:bg-gray-900
           `}>
-            <Outlet />
+            {/* <Outlet /> */}
+            <Outlet context={{ searchTerm }} />
+
           </main>
         </div>
       </div>

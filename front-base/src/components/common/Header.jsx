@@ -2,10 +2,14 @@
 import { useEffect, useRef } from 'react';
 import SearchBar from "../Search/SearchBar";
 import { useAuth } from "../../context/AuthContext";
+import { useLocation } from "react-router-dom";
 
 const Header = ({ searchTitle, searchTerm, setSearchTerm, toggleDarkMode, darkMode }) => {
   const { user, logout } = useAuth() || {};
   const searchBarRef = useRef(null);
+  const location = useLocation();
+  const isTalleres = location.pathname.includes("/talleres");
+
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -27,12 +31,14 @@ const Header = ({ searchTitle, searchTerm, setSearchTerm, toggleDarkMode, darkMo
       </h1>
 
       <div className="flex-1 max-w-md mx-8">
-        <SearchBar
-          searchTerm={searchTerm}
-          searchTitle={searchTitle}
-          setSearchTerm={setSearchTerm}
-          ref={searchBarRef}
-        />
+        <div className={isTalleres ? "visible" : "invisible"}>
+          <SearchBar
+            searchTerm={searchTerm}
+            searchTitle={searchTitle}
+            setSearchTerm={setSearchTerm}
+            ref={searchBarRef}
+          />
+        </div>
       </div>
 
       <div className="flex items-center gap-2">

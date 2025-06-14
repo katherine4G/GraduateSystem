@@ -21,7 +21,7 @@ import PerfilGraduado from "./pages/Graduados/PerfilGraduado";
 import TalleresGraduado from "./pages/Graduados/TalleresGraduado";
 import Preferencias from "./pages/Graduados/Preferencias";
 import CertificadosGraduado from "./pages/Graduados/CertificadosGraduado";
-import ComunicacionGraduado from "./pages/Graduados/ComunicacionGraduado";
+import ComunicacionGraduado from "./pages/Graduados/Comunicacion";
 
 // FACILITADOR
 import PerfilFacilitador from "./pages/Facilitador/PerfilFacilitador";

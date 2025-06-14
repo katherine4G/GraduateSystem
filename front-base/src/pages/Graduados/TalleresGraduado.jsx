@@ -1,10 +1,12 @@
 // src/pages/Graduados/TalleresGraduado.jsx
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useOutletContext } from "react-router-dom";
 
 const TalleresGraduado = () => {
   const { token } = useAuth();
   const API_URL = import.meta.env.VITE_API_URL;
+  const { searchTerm } = useOutletContext(); //  del Header.jsx (Layout) 
 
   const [talleres, setTalleres] = useState([]);
   const [inscribiendoId, setInscribiendoId] = useState(null);
@@ -29,7 +31,6 @@ const TalleresGraduado = () => {
     fetchTalleres();
   }, [API_URL, token]);
 
-  // 2) Función para inscribir al taller
   const handleInscribir = async (courseId) => {
     setInscribiendoId(courseId);
     try {
@@ -46,7 +47,6 @@ const TalleresGraduado = () => {
         throw new Error(err.error || "Error al inscribir");
       }
       alert("✅ Inscripción exitosa");
-      // opcional: marcarlo como inscrito en el UI
       setTalleres((prev) =>
         prev.map((t) =>
           t.IdCourse === courseId ? { ...t, enrolled: true } : t
@@ -59,12 +59,27 @@ const TalleresGraduado = () => {
     }
   };
 
+  // 🔎 Aquí se filtran los talleres por nombre o modalidad
+  const talleresFiltrados = talleres.filter((t) => {
+    const nombre = t.Name_course.toLowerCase();
+    const modalidad = t.Modality.toLowerCase();
+    const busqueda = searchTerm.toLowerCase();
+    return (
+      nombre.includes(busqueda) ||
+      modalidad.includes(busqueda)
+    );
+  });
+
   if (loading) return <p className="p-6">Cargando talleres…</p>;
   if (error)   return <p className="p-6 text-red-500">{error}</p>;
 
+  if (!talleresFiltrados.length) {
+    return <p className="p-6 text-gray-400">No se encontraron talleres con ese nombre o modalidad.</p>;
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6 grid gap-6 grid-cols-1 md:grid-cols-2">
-      {talleres.map((t) => (
+      {talleresFiltrados.map((t) => (
         <div
           key={t.IdCourse}
           className="bg-white dark:bg-gray-800 rounded-lg shadow p-5 flex flex-col"

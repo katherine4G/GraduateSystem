@@ -65,6 +65,10 @@ const Preferencias = () => {
       <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
         Mis Preferencias
       </h1>
+      <h4  className="text-2x2 font-bold mb-4 text-gray-300 dark:text-white"> 
+        Selecciona las modalidades o cursos de tu preferencia.
+      </h4>
+    
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {opciones.map(opt => (
           <label

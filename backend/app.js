@@ -17,6 +17,8 @@ app.use('/api/perfil',     require('./routes/perfil'));
 app.use('/api/talleres', require('./routes/graduados/talleres'));
 app.use('/api/certificados',  require('./routes/graduados/certificados'));
 app.use('/api/preferencias', require('./routes/graduados/preferencias'));
+app.use('/api/comunicacion', require('./routes/graduados/comunicacion'));
+
 
 
 const PORT = process.env.PORT || 3001;

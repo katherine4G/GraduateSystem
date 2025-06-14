@@ -1,48 +1,106 @@
 // src/pages/Admin/PerfilAdmin.jsx
 import { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 
 const PerfilAdmin = () => {
-  const [mensaje, setMensaje] = useState("");
-  const [error, setError] = useState("");
+  const { token } = useAuth();
+  const [perfil, setPerfil] = useState(null);
+  const [error, setError]   = useState(null);
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const cargarDatos = async () => {
+    const fetchPerfil = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/perfil/admin`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+        const res = await fetch(`${API_URL}/api/perfil`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-
-        const data = await res.json();
-
         if (!res.ok) {
-          throw new Error(data.error || "Error al cargar datos");
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Error al cargar perfil");
         }
-
-        setMensaje(data.mensaje); // Mensaje desde el backend
+        const data = await res.json();
+        setPerfil(data);
       } catch (err) {
         setError(err.message);
       }
     };
+    fetchPerfil();
+  }, [token]);
 
-    cargarDatos();
-  }, [API_URL]);
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!perfil) return <p className="text-gray-600">Cargando perfil...</p>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Perfil Admin</h1>
-      {error ? (
-        <p className="text-red-600">{error}</p>
-      ) : (
-        <p className="text-green-700">{mensaje}</p>
-      )}
+    <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h1 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+        Perfil Administrador
+      </h1>
+      <div className="space-y-3 text-gray-800 dark:text-white">
+        <p><strong>Cédula:</strong> {perfil.cedula}</p>
+        <p><strong>Nombre:</strong> {perfil.nombre}</p>
+        <p><strong>Email:</strong> {perfil.email}</p>
+        <p><strong>Teléfono:</strong> {perfil.telefono}</p>
+      </div>
     </div>
   );
 };
 
 export default PerfilAdmin;
+
+// // src/pages/Admin/PerfilAdmin.jsx
+// import { useEffect, useState } from "react";
+
+// const PerfilAdmin = () => {
+//   const [mensaje, setMensaje] = useState("");
+//   const [error, setError] = useState("");
+//   const API_URL = import.meta.env.VITE_API_URL;
+
+//   useEffect(() => {
+//     const cargarDatos = async () => {
+//       try {
+//         const res = await fetch(`${API_URL}/api/perfil/admin`, {
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem("token")}`,
+//           },
+//         });
+
+//         const data = await res.json();
+
+//         if (!res.ok) {
+//           throw new Error(data.error || "Error al cargar datos");
+//         }
+
+//         setMensaje(data.mensaje); // Mensaje desde el backend
+//       } catch (err) {
+//         setError(err.message);
+//       }
+//     };
+
+//     cargarDatos();
+//   }, [API_URL]);
+
+//   return (
+//     <div className="p-6">
+//       <h1 className="text-2xl font-bold mb-4">Perfil Admin</h1>
+//       {error ? (
+//         <p className="text-red-600">{error}</p>
+//       ) : (
+//         <p className="text-green-700">{mensaje}</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default PerfilAdmin;
+
+
+
+
+
+
+
+
+
 
 // const PerfilAdmin = () => {
 //   return <div>PerfilAdmin vista funcional</div>;
