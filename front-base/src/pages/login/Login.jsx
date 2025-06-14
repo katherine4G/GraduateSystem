@@ -1,12 +1,13 @@
+// src/pages/login/Login.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { motion } from 'framer-motion';
+import logoU from '../../assets/logoU.png';
 
 const Login = () => {
   const navigate = useNavigate();
-  const auth = useAuth() || {};
-  const login = auth.login;
-
+  const { login } = useAuth() || {};
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [form, setForm] = useState({ cedula: "", password: "" });
@@ -15,92 +16,104 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
     try {
       const res = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario: form.cedula, password: form.password }),
       });
-
       const data = await res.json();
       setLoading(false);
-
       if (!res.ok) {
-        setError(data.error || "Error al iniciar sesión");
+        setError(data.error || "Credenciales inválidas");
         return;
       }
-
-      login(data.token); // Guarda el token en contexto y localStorage
-
-      const decoded = JSON.parse(atob(data.token.split(".")[1]));
-      switch (decoded.rol) {
-        case 1:
-          navigate("/perfil-admin");
-          break;
-        case 2:
-          navigate("/perfil-graduado");
-          break;
-        case 3:
-          navigate("/perfil-facilitador");
-          break;
-        default:
-          navigate("/login");
-          break;
-      }
-
+      login(data.token);
+      const { rol } = JSON.parse(atob(data.token.split('.')[1]));
+      const target =
+        rol === 1
+          ? '/perfil-admin'
+          : rol === 2
+          ? '/perfil-graduado'
+          : '/perfil-facilitador';
+      navigate(target);
     } catch (err) {
-      console.error("Error al intentar iniciar sesión:", err);
       setError("Error de conexión. Intentá nuevamente.");
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-6 text-center text-blue-700">Iniciar sesión</h1>
-      <form onSubmit={handleLogin} className="space-y-4">
-        <input
-          type="text"
-          name="cedula"
-          placeholder="Cédula"
-          value={form.cedula}
-          onChange={handleChange}
-          required
-          className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-          value={form.password}
-          onChange={handleChange}
-          required
-          className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-        <button
-          type="submit"
-          className={`bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg w-full ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={loading}
-        >
-          {loading ? "Cargando..." : "Entrar"}
-        </button>
-      </form>
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
 
-      <p className="text-center text-sm mt-4 text-gray-600">
-        ¿No tenés cuenta?{" "}
-        <Link to="/registro" className="text-blue-600 underline">
-          Registrate aquí
-        </Link>
-      </p>
+      <div className="w-full max-w-md space-y-0">
+        <img src={logoU} alt="Logo UNA" className="h-35 w-auto mx-auto"/>
+
+        {/* Tarjeta */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-gray-800 p-8 rounded-2xl shadow-xl"
+        >
+          <motion.h1
+            initial={{ scale: 0.8 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="text-3xl font-bold mb-6 text-center text-white"
+          >
+            Iniciar Sesión
+          </motion.h1>
+
+          <form onSubmit={handleLogin} className="space-y-5">
+            <input
+              type="text"
+              name="cedula"
+              placeholder="Cédula"
+              value={form.cedula}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              value={form.password}
+              onChange={handleChange}
+              required
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            <button
+              type="submit"
+              disabled={loading}
+              className={
+                `w-full py-3 rounded-lg text-white font-semibold transition-transform ` +
+                (loading
+                  ? 'bg-blue-800 opacity-50 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 hover:scale-105')
+              }
+            >
+              {loading ? 'Cargando...' : 'Entrar'}
+            </button>
+          </form>
+
+          <p className="text-center text-gray-400 text-sm mt-6">
+            ¿No tenés cuenta?{' '}
+            <Link to="/registro" className="text-blue-400 hover:underline">
+              Registrate aquí
+            </Link>
+          </p>
+        </motion.div>
+      </div>
     </div>
   );
 };

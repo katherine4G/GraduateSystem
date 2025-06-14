@@ -26,9 +26,9 @@ const Header = ({ searchTitle, searchTerm, setSearchTerm, toggleDarkMode, darkMo
     <header
       className="w-full bg-white dark:bg-gray-800 border-b shadow-sm py-6 px-8 flex justify-between items-center"
     >
-      <h1 className="text-lg font-semibold text-gray-800 dark:text-white">
-        {searchTitle || "______________"} {/*lol */}
-      </h1>
+      {/* <h1 className="text-lg font-semibold text-gray-800 dark:text-white">
+        {searchTitle || "______________"} lol
+      </h1> */}
 
       <div className="flex-1 max-w-md mx-8">
         <div className={isTalleres ? "visible" : "invisible"}>
@@ -42,20 +42,13 @@ const Header = ({ searchTitle, searchTerm, setSearchTerm, toggleDarkMode, darkMo
       </div>
 
       <div className="flex items-center gap-2">
-        <button
+        {/* <button
           onClick={toggleDarkMode}
           className="px-3 py-2 rounded text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
         >
           {darkMode ? "☀️" : "🌙"}
-        </button>
-        {/* {user && (
-          <button
-            onClick={logout}
-            className="px-3 py-2 rounded text-sm bg-red-500 hover:bg-red-600 text-white"
-          >
-            Cerrar sesión
-          </button>
-        )} */}
+        </button> */}
+
       </div>
     </header>
   );
