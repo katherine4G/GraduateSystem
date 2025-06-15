@@ -7,19 +7,25 @@ const app     = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/uploads', express.static('uploads'));// archivos subidos
+app.use('/uploads', express.static('uploads')); // archivos subidos
+
+// comunes
+app.use('/api/carreras',     require('./routes/career'));
+app.use('/api/registro',     require('./routes/registro'));
+app.use('/api/login',        require('./routes/auth'));
+app.use('/api/perfil',       require('./routes/perfil'));
+app.use('/api/speakers', require('./routes/speakers'));
 
 
-app.use('/api/carreras', require('./routes/career'));
-app.use('/api/registro',   require('./routes/registro'));
-app.use('/api/login',      require('./routes/auth'));
-app.use('/api/perfil',     require('./routes/perfil'));
-app.use('/api/talleres', require('./routes/graduados/talleres'));
-app.use('/api/certificados',  require('./routes/graduados/certificados'));
+// graduado
+app.use('/api/talleres',     require('./routes/graduados/talleres'));
+app.use('/api/certificados', require('./routes/graduados/certificados'));
 app.use('/api/preferencias', require('./routes/graduados/preferencias'));
 app.use('/api/comunicacion', require('./routes/graduados/comunicacion'));
 
-
+//admin
+app.use('/api/admin/graduados', require('./routes/admin/graduados'));
+app.use('/api/admin/talleres',  require('./routes/admin/talleresRoutes'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
