@@ -1,0 +1,10 @@
+{
+  "name": "Talleres UNA",
+  "short_name": "UNA Talleres",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "orientation": "portrait"
+
+}

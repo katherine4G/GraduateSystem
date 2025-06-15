@@ -1,6 +1,8 @@
 
 // backend/models/admin/graduadoModel.js
 const db = require('../../db');
+const bcrypt = require('bcrypt');
+
 
 function obtenerGraduadosPaginados(page = 1, limit = 10) {
   return new Promise((resolve, reject) => {
@@ -59,39 +61,61 @@ function listarGraduados(limit, offset) {
 }
 
 function insertarGraduado(data) {
-  return new Promise((resolve, reject) => {
-    const {
-      FirstName, LastName1, LastName2,
-      IdentityNumber, Email, Phone, Address='', Password,
-      GraduationYear, IdCarrer
-    } = data;
+  return new Promise(async (resolve, reject) => {
+    try {
+      const {
+        FirstName, LastName1, LastName2,
+        IdentityNumber, Email, Phone, Address,
+        Password, GraduationYear, IdCarrer
+      } = data;
 
-    // 1) Insertar en Users
-    const sqlUser = `
-      INSERT INTO Users
-        (FirstName, LastName1, LastName2, IdentityNumber, Email, Phone, Address, Password, IdRole)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 2)
-    `;
-    db.query(sqlUser,
-      [FirstName, LastName1, LastName2, IdentityNumber, Email, Phone, Address, Password],
-      (err, result) => {
-        if (err) return reject(err);
-        const idUser = result.insertId;
+      // Verificar que venga contraseña
+      if (!Password) return reject(new Error("Falta la contraseña"));
 
-        // 2) Insertar en Graduates
-        const sqlGrad = `
-          INSERT INTO Graduates
-            (IdGraduate, GraduationYear, IdCarrer, Category, WorkPhone)
-          VALUES (?, ?, ?, 'default', ?)
-        `;
-        db.query(sqlGrad, [idUser, GraduationYear, IdCarrer, Phone], (err2) => {
-          if (err2) return reject(err2);
-          resolve({ insertId: idUser });
-        });
-      }
-    );
+      // Hash de la contraseña
+      const hashedPassword = await bcrypt.hash(Password, 10);
+
+      // Dirección opcional
+      const direccionFinal = Address || '';
+
+      // Insertar en Users
+      const sqlUser = `
+        INSERT INTO Users
+          (FirstName, LastName1, LastName2, IdentityNumber, Email, Phone, Address, Password, IdRole)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 2)
+      `;
+
+      db.query(
+        sqlUser,
+        [FirstName, LastName1, LastName2, IdentityNumber, Email, Phone, direccionFinal, hashedPassword],
+        (err, result) => {
+          if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+              return reject(new Error("La cédula ya está registrada"));
+            }
+            return reject(err);
+          }
+
+          const idUser = result.insertId;
+
+          // Insertar en Graduates
+          const sqlGrad = `
+            INSERT INTO Graduates
+              (IdGraduate, GraduationYear, IdCarrer, Category, WorkPhone)
+            VALUES (?, ?, ?, 'default', ?)
+          `;
+          db.query(sqlGrad, [idUser, GraduationYear, IdCarrer, Phone], (err2) => {
+            if (err2) return reject(err2);
+            resolve({ insertId: idUser });
+          });
+        }
+      );
+    } catch (error) {
+      reject(error);
+    }
   });
 }
+
 
 function editarGraduado(id, data) {
   return new Promise((resolve, reject) => {

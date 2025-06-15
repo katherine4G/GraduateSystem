@@ -1,5 +1,4 @@
 // src/pages/Admin/RegistroGraduadoAdmin.jsx
-// src/pages/Admin/RegistroGraduadoAdmin.jsx
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
@@ -17,6 +16,7 @@ const RegistroGraduadoAdmin = () => {
     IdentityNumber: "",
     Email: "",
     Phone: "",
+    Address: "", 
     GraduationYear: "",
     IdCarrer: "",
     Password: ""
@@ -86,8 +86,8 @@ const RegistroGraduadoAdmin = () => {
       });
 
       if (!res.ok) {
-        const errData = await res.json().catch(() => null);
-        throw new Error(errData?.error || "Error al guardar graduado");
+        // Mostrar error específico (cédula duplicada u otro)
+        throw new Error(result.error || "Error al guardar graduado");
       }
 
       alert("✅ Graduado guardado con éxito");
@@ -98,6 +98,7 @@ const RegistroGraduadoAdmin = () => {
         IdentityNumber: "",
         Email: "",
         Phone: "",
+        Address: "",
         GraduationYear: "",
         IdCarrer: "",
         Password: ""
@@ -154,6 +155,7 @@ const RegistroGraduadoAdmin = () => {
           <input name="IdentityNumber" placeholder="Cédula" value={form.IdentityNumber} onChange={handleChange} className="p-2 border rounded" required />
           <input name="Email" type="email" placeholder="Correo" value={form.Email} onChange={handleChange} className="p-2 border rounded" required />
           <input name="Phone" placeholder="Teléfono" value={form.Phone} onChange={handleChange} className="p-2 border rounded" required />
+          <input name="Address" placeholder="Dirección" value={form.Address} onChange={handleChange} className="p-2 border rounded" />
           <input name="GraduationYear" placeholder="Año de graduación" value={form.GraduationYear} onChange={handleChange} className="p-2 border rounded" required />
           <select name="IdCarrer" value={form.IdCarrer} onChange={handleChange} required className="p-2 border rounded bg-white text-black dark:bg-gray-800 dark:text-white">
             <option value="">Seleccionar carrera</option>
