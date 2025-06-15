@@ -1,9 +1,4 @@
 /* index.css */
-@import "tailwindcss";
-
-html, body, #root {
-  height: 100%;
-}
 
 /* @import "tailwindcss/preflight";
 @import "tailwindcss"; */
