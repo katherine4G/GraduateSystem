@@ -1,5 +1,5 @@
-const CertificadosAdmin = () => {
-  return <div>CertificadosAdmin vista funcional</div>;
-};
+// const CertificadosAdmin = () => {
+//   return <div>CertificadosAdmin vista funcional</div>;
+// };
 
-export default CertificadosAdmin;
+// export default CertificadosAdmin;

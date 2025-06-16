@@ -11,7 +11,7 @@ import Registro from "./pages/login/Registro";
 import PerfilAdmin from "./pages/Admin/PerfilAdmin";
 import RegistroGraduadoAdmin from "./pages/Admin/RegistroGraduadoAdmin";
 import AdministrarTalleres from "./pages/Admin/AdministrarTalleres";
-import CertificadosAdmin from "./pages/Admin/CertificadosAdmin";
+// import CertificadosAdmin from "./pages/Admin/CertificadosAdmin";
 import ComunicacionAdmin from "./pages/Admin/ComunicacionAdmin";
 import ReportesEstadisticas from "./pages/Admin/ReportesEstadisticas";
 import GestionUsuarios from "./pages/Admin/GestionUsuarios";
@@ -48,7 +48,7 @@ function App() {
         <Route path="perfil-admin" element={<PrivateRoute><PerfilAdmin /></PrivateRoute>} />
         <Route path="registro-graduados" element={<PrivateRoute><RegistroGraduadoAdmin /></PrivateRoute>} />
         <Route path="talleres-admin" element={<PrivateRoute><AdministrarTalleres /></PrivateRoute>} />
-        <Route path="certificados-admin" element={<PrivateRoute><CertificadosAdmin /></PrivateRoute>} />
+        {/* <Route path="certificados-admin" element={<PrivateRoute><CertificadosAdmin /></PrivateRoute>} /> */}
         <Route path="comunicacion-admin" element={<PrivateRoute><ComunicacionAdmin /></PrivateRoute>} />
         <Route path="reportes" element={<PrivateRoute><ReportesEstadisticas /></PrivateRoute>} />
         <Route path="usuarios" element={<PrivateRoute><GestionUsuarios /></PrivateRoute>} />
@@ -67,7 +67,6 @@ function App() {
         <Route path="certificados-fac" element={<PrivateRoute><CertificadosFacilitador /></PrivateRoute>} />
         <Route path="evaluaciones" element={<PrivateRoute><EvaluacionesTalleres /></PrivateRoute>} />
 
-        {/* RUTA DESCONOCIDA */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Route>
     </Routes>

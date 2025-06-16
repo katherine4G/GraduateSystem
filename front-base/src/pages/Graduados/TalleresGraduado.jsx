@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useOutletContext } from "react-router-dom";
+import emailjs from "@emailjs/browser";
 
 const TalleresGraduado = () => {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   const API_URL = import.meta.env.VITE_API_URL;
-  const { searchTerm } = useOutletContext(); //  del Header.jsx (Layout) 
+  const { searchTerm } = useOutletContext();
 
   const [talleres, setTalleres] = useState([]);
   const [inscribiendoId, setInscribiendoId] = useState(null);
@@ -31,51 +32,80 @@ const TalleresGraduado = () => {
     fetchTalleres();
   }, [API_URL, token]);
 
-  const handleInscribir = async (courseId) => {
-    setInscribiendoId(courseId);
-    try {
-      const res = await fetch(`${API_URL}/api/talleres/inscribir`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ courseId }),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Error al inscribir");
-      }
-      alert("✅ Inscripción exitosa");
-      setTalleres((prev) =>
-        prev.map((t) =>
-          t.IdCourse === courseId ? { ...t, enrolled: true } : t
-        )
-      );
-    } catch (err) {
-      alert("❌ " + err.message);
-    } finally {
-      setInscribiendoId(null);
-    }
-  };
+const handleInscribir = async (courseId) => {
+  setInscribiendoId(courseId);
+  try {
+    // Inscribir al taller
+    const res = await fetch(`${API_URL}/api/talleres/inscribir`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ courseId }),
+    });
 
-  // 🔎 Aquí se filtran los talleres por nombre o modalidad
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || "Error al inscribir");
+    }
+
+    // atualizar estado local
+    setTalleres((prev) =>
+      prev.map((t) =>
+        t.IdCourse === courseId ? { ...t, enrolled: true } : t
+      )
+    );
+
+    // obtener datos reales del graduado (email y nombre)
+    const perfilRes = await fetch(`${API_URL}/api/perfil`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const perfil = await perfilRes.json();
+
+    // preparar el correo
+    const taller = talleres.find((t) => t.IdCourse === courseId);
+    const emailParams = {
+      title: "Confirmación", 
+      name: "Graduados UNA",
+      time: taller?.Time_course || "",
+      message: `Te has inscrito al taller de ${taller?.Name_course} que se realizará el ${taller?.Date_course}`,
+      user_email: perfil.email,
+      email: "graduados.una.ac.cr@gmail.com",
+    };
+
+    console.log(" Enviando correo con:", emailParams);
+
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      emailParams,
+      import.meta.env.VITE_EMAILJS_USER_ID
+    );
+
+    alert("✅ Inscripción exitosa y correo enviado");
+
+  } catch (err) {
+    alert("❌ " + err.message);
+  } finally {
+    setInscribiendoId(null);
+  }
+};
+
+
   const talleresFiltrados = talleres.filter((t) => {
     const nombre = t.Name_course.toLowerCase();
     const modalidad = t.Modality.toLowerCase();
     const busqueda = searchTerm.toLowerCase();
     return (
-      nombre.includes(busqueda) ||
-      modalidad.includes(busqueda)
+      nombre.includes(busqueda) || modalidad.includes(busqueda)
     );
   });
 
   if (loading) return <p className="p-6">Cargando talleres…</p>;
-  if (error)   return <p className="p-6 text-red-500">{error}</p>;
-
-  if (!talleresFiltrados.length) {
+  if (error) return <p className="p-6 text-red-500">{error}</p>;
+  if (!talleresFiltrados.length)
     return <p className="p-6 text-gray-400">No se encontraron talleres con ese nombre o modalidad.</p>;
-  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 grid gap-6 grid-cols-1 md:grid-cols-2">
@@ -105,7 +135,7 @@ const TalleresGraduado = () => {
             `}
           >
             {t.enrolled
-              ? "inscrito"
+              ? "Inscrito"
               : inscribiendoId === t.IdCourse
               ? "Inscribiendo..."
               : "Inscribirse"}

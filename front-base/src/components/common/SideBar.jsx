@@ -28,7 +28,7 @@ const SideBar = ({ isMinimized, toggleSidebar }) => {
     rol === 1 && { label: "Inicio", path: "/perfil-admin", icon: LayoutGrid },
     rol === 1 && { label: "Registro Graduados", path: "/registro-graduados", icon: Users },
     rol === 1 && { label: "Administrar Talleres", path: "/talleres-admin", icon: BookOpen },
-    rol === 1 && { label: "Certificados", path: "/certificados-admin", icon: GraduationCap },
+    // rol === 1 && { label: "Certificados", path: "/certificados-admin", icon: GraduationCap },
     rol === 1 && { label: "Comunicación", path: "/comunicacion-admin", icon: Inbox },
     rol === 1 && { label: "Reportes", path: "/reportes", icon: BarChart },
     rol === 1 && { label: "Usuarios", path: "/usuarios", icon: UserCheck },

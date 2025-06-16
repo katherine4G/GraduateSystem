@@ -26,6 +26,8 @@ app.use('/api/comunicacion', require('./routes/graduados/comunicacion'));
 //admin
 app.use('/api/admin/graduados', require('./routes/admin/graduados'));
 app.use('/api/admin/talleres',  require('./routes/admin/talleresRoutes'));
+app.use('/api/admin/comunicacion', require('./routes/admin/comunicacion'));
+app.use('/api/admin/reports', require('./routes/admin/reports'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
