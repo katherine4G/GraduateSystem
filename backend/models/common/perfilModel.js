@@ -1,5 +1,5 @@
 // backend/models/perfilModel.js
-const db = require('../db');
+const db = require('../../db');
 
 const obtenerPerfilAdmin = id =>
   new Promise((resolve, reject) => {

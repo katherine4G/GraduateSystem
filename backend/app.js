@@ -10,11 +10,11 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads')); // archivos subidos
 
 // comunes
-app.use('/api/carreras',     require('./routes/career'));
-app.use('/api/registro',     require('./routes/registro'));
-app.use('/api/login',        require('./routes/auth'));
-app.use('/api/perfil',       require('./routes/perfil'));
-app.use('/api/speakers', require('./routes/speakers'));
+app.use('/api/carreras',     require('./routes/common/career'));
+app.use('/api/registro',     require('./routes/common/registro'));
+app.use('/api/login',        require('./routes/common/auth'));
+app.use('/api/perfil',       require('./routes/common/perfil'));
+app.use('/api/speakers', require('./routes/common/speakers'));
 
 
 // graduado

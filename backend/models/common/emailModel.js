@@ -1,5 +1,5 @@
 //backend/models/emailModel.js
-const db = require('../db');
+const db = require('../../db');
 
 // Insertar historial de correo
 const guardarHistorialCorreo = (idAdmin, subject, message, sentTo, carreraFiltrada) => {

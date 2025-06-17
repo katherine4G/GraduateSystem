@@ -1,7 +1,7 @@
 // controllers/authController.js
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { getUserByCedula } = require('../models/authModel');
+const { getUserByCedula } = require('../../models/common/authModel');
 
 const login = async (req, res) => {
   try {

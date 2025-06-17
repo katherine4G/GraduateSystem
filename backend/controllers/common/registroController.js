@@ -4,7 +4,7 @@ const {
   insertarUsuario,
   insertarGraduado,
   insertarSpeaker
-} = require('../models/registroModel');
+} = require('../../models/common/registroModel');
 
 const register = async (req, res) => {
   try {

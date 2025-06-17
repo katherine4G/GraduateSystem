@@ -1,5 +1,5 @@
 // backend/controllers/careerController.js
-const { obtenerCarreras } = require('../models/graduados/careerModel');
+const { obtenerCarreras } = require('../../models/graduados/careerModel');
 
 const listarCarreras = async (req, res) => {
   try {

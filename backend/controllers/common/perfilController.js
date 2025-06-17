@@ -3,7 +3,7 @@ const {
   obtenerPerfilAdmin,
   obtenerPerfilGraduado,
   obtenerPerfilFacilitador
-} = require('../models/perfilModel');
+} = require('../../models/common/perfilModel');
 
 const obtenerPerfil = async (req, res) => {
   const { id, rol } = req.user;

@@ -1,5 +1,5 @@
 // backend/models/registroModel.js
-const db = require('../db');
+const db = require('../../db');
 
 const insertarUsuario = ({
   firstName, lastName1, lastName2,

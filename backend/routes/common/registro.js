@@ -3,7 +3,7 @@ const express  = require('express');
 const multer   = require('multer');
 const path     = require('path');
 const fs       = require('fs');
-const { register } = require('../controllers/registroController');
+const { register } = require('../../controllers/common/registroController');
 const router   = express.Router();
 
 // Configuración de Multer

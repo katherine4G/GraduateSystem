@@ -2,7 +2,7 @@ const {
   guardarHistorialCorreo,
   guardarDestinatarios,
   obtenerHistorialCorreos,
-} = require('../../models/emailModel');
+} = require('../../models/common/emailModel');
 
 const db = require('../../db');
 
