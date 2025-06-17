@@ -6,15 +6,13 @@ import PrivateRoute from "./components/routes/PrivateRoute";
 import Login from "./pages/login/Login";
 import Registro from "./pages/login/Registro";
 
-
 // ADMIN
 import PerfilAdmin from "./pages/Admin/PerfilAdmin";
 import RegistroGraduadoAdmin from "./pages/Admin/RegistroGraduadoAdmin";
 import AdministrarTalleres from "./pages/Admin/AdministrarTalleres";
-// import CertificadosAdmin from "./pages/Admin/CertificadosAdmin";
 import ComunicacionAdmin from "./pages/Admin/ComunicacionAdmin";
 import ReportesEstadisticas from "./pages/Admin/ReportesEstadisticas";
-import GestionUsuarios from "./pages/Admin/GestionUsuarios";
+import GestionUsuarios from "./pages/Admin/GestionUsuarios"; 
 
 // GRADUADO
 import PerfilGraduado from "./pages/Graduados/PerfilGraduado";
@@ -27,7 +25,6 @@ import ComunicacionGraduado from "./pages/Graduados/Comunicacion";
 import PerfilFacilitador from "./pages/Facilitador/PerfilFacilitador";
 import MisTalleres from "./pages/Facilitador/MisTalleres";
 import ControlAsistencia from "./pages/Facilitador/ControlAsistencia";
-import CertificadosFacilitador from "./pages/Facilitador/CertificadosFacilitador";
 import EvaluacionesTalleres from "./pages/Facilitador/EvaluacionesTalleres";
 
 function App() {
@@ -64,7 +61,6 @@ function App() {
         <Route path="perfil-facilitador" element={<PrivateRoute><PerfilFacilitador /></PrivateRoute>} />
         <Route path="mis-talleres" element={<PrivateRoute><MisTalleres /></PrivateRoute>} />
         <Route path="asistencia" element={<PrivateRoute><ControlAsistencia /></PrivateRoute>} />
-        <Route path="certificados-fac" element={<PrivateRoute><CertificadosFacilitador /></PrivateRoute>} />
         <Route path="evaluaciones" element={<PrivateRoute><EvaluacionesTalleres /></PrivateRoute>} />
 
         <Route path="*" element={<Navigate to="/login" />} />

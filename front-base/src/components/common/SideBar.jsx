@@ -44,7 +44,7 @@ const SideBar = ({ isMinimized, toggleSidebar }) => {
     rol === 3 && { label: "Inicio", path: "/perfil-facilitador", icon: LayoutGrid },
     rol === 3 && { label: "Mis Talleres", path: "/mis-talleres", icon: BookOpen },
     rol === 3 && { label: "Asistencia", path: "/asistencia", icon: ClipboardList },
-    rol === 3 && { label: "Certificados", path: "/certificados-fac", icon: GraduationCap },
+    // rol === 3 && { label: "Certificados", path: "/certificados-fac", icon: GraduationCap },
     rol === 3 && { label: "Evaluaciones", path: "/evaluaciones", icon: BarChart },
   ].filter(Boolean);
 

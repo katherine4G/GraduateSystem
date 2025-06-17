@@ -4,7 +4,6 @@ import { SearchCheck } from "lucide-react";
 const SearchBar = forwardRef(({ searchTitle, searchTerm, setSearchTerm }, ref) => {
   const inputRef = useRef();
 
-  // Exponer método al padre
   useImperativeHandle(ref, () => ({
     focus: () => {
       inputRef.current?.focus();

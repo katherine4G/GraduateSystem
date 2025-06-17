@@ -8,8 +8,11 @@ const Header = ({ searchTitle, searchTerm, setSearchTerm, toggleDarkMode, darkMo
   const { user, logout } = useAuth() || {};
   const searchBarRef = useRef(null);
   const location = useLocation();
-  const isTalleres = location.pathname.includes("/talleres");
 
+  // Mostrar la barra en páginas de talleres y usuarios
+  const isSearchPage =
+    location.pathname.includes("/talleres") ||
+    location.pathname.includes("/usuarios");
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -23,15 +26,10 @@ const Header = ({ searchTitle, searchTerm, setSearchTerm, toggleDarkMode, darkMo
   }, []);
 
   return (
-    <header
-      className="w-full bg-white dark:bg-gray-800 border-b shadow-sm py-6 px-8 flex justify-between items-center"
-    >
-      {/* <h1 className="text-lg font-semibold text-gray-800 dark:text-white">
-        {searchTitle || "______________"} lol
-      </h1> */}
-
+    <header className="w-full bg-white dark:bg-gray-800 border-b shadow-sm py-6 px-8 flex justify-between items-center">
       <div className="flex-1 max-w-md mx-8">
-        <div className={isTalleres ? "visible" : "invisible"}>
+        {/* Mostrar SearchBar solo en rutas habilitadas */}
+        <div className={isSearchPage ? "visible" : "invisible"}>
           <SearchBar
             searchTerm={searchTerm}
             searchTitle={searchTitle}
@@ -42,13 +40,7 @@ const Header = ({ searchTitle, searchTerm, setSearchTerm, toggleDarkMode, darkMo
       </div>
 
       <div className="flex items-center gap-2">
-        {/* <button
-          onClick={toggleDarkMode}
-          className="px-3 py-2 rounded text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
-        >
-          {darkMode ? "☀️" : "🌙"}
-        </button> */}
-
+        {/* aquí puedes añadir botones de usuario, logout, dark mode, etc. */}
       </div>
     </header>
   );

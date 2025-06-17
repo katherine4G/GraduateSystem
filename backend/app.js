@@ -28,6 +28,12 @@ app.use('/api/admin/graduados', require('./routes/admin/graduados'));
 app.use('/api/admin/talleres',  require('./routes/admin/talleresRoutes'));
 app.use('/api/admin/comunicacion', require('./routes/admin/comunicacion'));
 app.use('/api/admin/reports', require('./routes/admin/reports'));
+app.use('/api/admin/users',     require('./routes/admin/users'));
+
+//facilitador:
+app.use('/api/facilitador/talleres', require('./routes/facilitador/talleres'));
+app.use('/api/facilitador/asistencia',require('./routes/facilitador/asistencia'));
+app.use('/api/facilitador/evaluaciones',require('./routes/facilitador/evaluaciones'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
