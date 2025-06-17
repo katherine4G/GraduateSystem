@@ -23,7 +23,8 @@ export default function ControlAsistencia() {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) throw new Error("Error cargando talleres");
-        setTalleres(await res.json());
+        const data = await res.json();
+        setTalleres(data);
       } catch (e) {
         setError(e.message);
       } finally {
@@ -45,7 +46,8 @@ export default function ControlAsistencia() {
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!res.ok) throw new Error("Error cargando alumnos");
-        setAlumnos(await res.json());
+        const data = await res.json();
+        setAlumnos(data);
       } catch (e) {
         toast.error("❌ " + e.message);
       }
@@ -69,7 +71,7 @@ export default function ControlAsistencia() {
       // actualizar local
       setAlumnos(al =>
         al.map(a =>
-          a.IdGraduate === gradId ? { ...a, completed: true } : a
+          a.IdGraduate === gradId ? { ...a, Completed: 1 } : a
         )
       );
       toast.success("🎉 Marcado como presente");
@@ -121,10 +123,10 @@ export default function ControlAsistencia() {
                   <td className="p-3">{a.FirstName} {a.LastName1}</td>
                   <td className="p-3">{a.Email}</td>
                   <td className="p-3">
-                    {a.completed ? "Presente" : "Ausente"}
+                    {a.Completed ? "Presente" : "Ausente"}
                   </td>
                   <td className="p-3">
-                    {!a.completed && (
+                    {!a.Completed && (
                       <button
                         onClick={() => marcarAsistencia(a.IdGraduate)}
                         className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded"

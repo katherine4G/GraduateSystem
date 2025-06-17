@@ -46,9 +46,3 @@ const PerfilFacilitador = () => {
 };
 
 export default PerfilFacilitador;
-
-// const PerfilFacilitador = () => {
-//   return <div>PerfilFacilitador vista funcional</div>;
-// };
-
-// export default PerfilFacilitador;
