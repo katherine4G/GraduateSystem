@@ -11,9 +11,9 @@
 /front-base/build/
 
 # ► Variables de entorno
-.env
-.env.local
-.env.*.local
+# .env
+# .env.local
+# .env.*.local
 
 # ► Logs
 npm-debug.log*
