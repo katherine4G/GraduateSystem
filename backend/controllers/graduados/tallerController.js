@@ -1,5 +1,5 @@
 // backend/controllers/tallerController.js
-const { obtenerTalleres, inscribirTaller } = require('../../models/graduados/tallerModel');
+const { obtenerTalleres, inscribirTaller, eliminarInscripcion } = require('../../models/graduados/tallerModel');
 
 const listarTalleres = async (req, res) => {
   try {
@@ -33,8 +33,22 @@ const inscribir = async (req, res) => {
     res.status(500).json({ error: 'Error al inscribir en taller' });
   }
 };
-
+const salir = async (req, res) => {
+  try {
+    const graduateId = req.user.id;
+    const { courseId } = req.body;
+    if (!courseId) {
+      return res.status(400).json({ error: 'Falta courseId' });
+    }
+    await eliminarInscripcion(courseId, graduateId);
+    res.json({ message: 'Te has salido del taller' });
+  } catch (err) {
+    console.error('Error al salir del taller:', err);
+    res.status(500).json({ error: 'No se pudo procesar la solicitud' });
+  }
+};
 module.exports = {
   listarTalleres,
-  inscribir
+  inscribir,
+  salir
 };

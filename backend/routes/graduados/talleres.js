@@ -2,7 +2,7 @@
 const express = require('express');
 const router  = express.Router();
 const { authenticate, authorizeRoles } = require('../../middlewares/auth');
-const { listarTalleres, inscribir }    = require('../../controllers/graduados/tallerController');
+const { listarTalleres, inscribir, salir }    = require('../../controllers/graduados/tallerController');
 
 router.get(
   '/', 
@@ -13,8 +13,14 @@ router.get(
 router.post(
   '/inscribir',
   authenticate,
-  authorizeRoles(2),  // sólo graduados
+  authorizeRoles(2), 
   inscribir
+);
+router.post(
+  '/salir',
+  authenticate,
+  authorizeRoles(2),  
+  salir
 );
 
 module.exports = router;

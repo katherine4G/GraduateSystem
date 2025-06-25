@@ -15,35 +15,38 @@ const obtenerTalleres = (graduateId) =>
         c.Date_course,
         c.Time_course,
         c.Modality,
-        -- Agrupamos los IdOption de CourseCategories
+        -- categorías
         GROUP_CONCAT(cc.IdOption) AS categoryIds,
-        -- Marcamos inscripción
-        CASE WHEN cg.IdGraduate IS NULL THEN FALSE ELSE TRUE END AS enrolled
+        -- si ya está inscrito
+        CASE WHEN cg.IdGraduate IS NULL THEN FALSE ELSE TRUE END AS enrolled,
+        -- datos del facilitador
+        u.FirstName AS facilitatorFirst,
+        u.LastName1  AS facilitatorLast
       FROM Courses c
-      -- Todas las categorías de cada curso
       LEFT JOIN CourseCategories cc
         ON c.IdCourse = cc.IdCourse
-      -- Ver si este graduado ya está inscrito
       LEFT JOIN Course_Graduate cg
         ON c.IdCourse = cg.IdCourse
         AND cg.IdGraduate = ?
+      -- unir con el speaker y su usuario
+      JOIN Speakers s
+        ON c.IdSpeaker = s.IdSpeaker
+      JOIN Users u
+        ON s.IdSpeaker = u.IdUser
       GROUP BY c.IdCourse
     `;
-
     db.query(sql, [graduateId], (err, rows) => {
       if (err) return reject(err);
       const cursos = rows.map(r => ({
-        IdCourse:    r.IdCourse,
-        Name_course: r.Name_course,
-        Description: r.Description,
-        Date_course: r.Date_course,
-        Time_course: r.Time_course,
-        Modality:    r.Modality,
-        // Convertimos "1,4" a [1,4], o [] si null
-        categoryIds: r.categoryIds
-          ? r.categoryIds.split(',').map(id => +id)
-          : [],
-        enrolled:    !!r.enrolled
+        IdCourse:         r.IdCourse,
+        Name_course:      r.Name_course,
+        Description:      r.Description,
+        Date_course:      r.Date_course,
+        Time_course:      r.Time_course,
+        Modality:         r.Modality,
+        categoryIds:      r.categoryIds ? r.categoryIds.split(',').map(n=>+n) : [],
+        enrolled:         !!r.enrolled,
+        facilitatorName:  `${r.facilitatorFirst} ${r.facilitatorLast}`
       }));
       resolve(cursos);
     });
@@ -69,7 +72,20 @@ const inscribirTaller = (courseId, graduateId) =>
     });
   });
 
+const eliminarInscripcion = (courseId, graduateId) =>
+  new Promise((resolve, reject) => {
+    const sql = `
+      DELETE FROM Course_Graduate
+      WHERE IdCourse = ? AND IdGraduate = ?
+    `;
+    db.query(sql, [courseId, graduateId], err => {
+      if (err) return reject(err);
+      resolve();
+    });
+  });
+
 module.exports = {
   obtenerTalleres,
-  inscribirTaller
+  inscribirTaller,
+  eliminarInscripcion
 };
